@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+
+    <context:property-placeholder
+            properties-ref="myProps"
+            ignore-resource-not-found="false" system-properties-mode="OVERRIDE" />
+
+    <util:properties id="myProps" location="classpath:integration-tests.properties"/>
+    <!--<util:properties id="myProps" location="classpath:local-tests.properties"/>-->
+
+    <context:component-scan base-package="net.example.spring.tibco.tests" />
+
+    <!--<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">-->
+        <!--<property name="environment">-->
+            <!--<props>-->
+                <!--<prop key="java.naming.factory.initial">com.tibco.tibjms.naming.TibjmsInitialContextFactory</prop>-->
+                <!--<prop key="java.naming.provider.url">${jms.provider.url}</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiTemplate" ref="jndiTemplate" />-->
+        <!--<property name="jndiName" value="QueueConnectionFactory" />-->
+    <!--</bean>-->
+
+    <bean id="tibcoConnectionFactory" class="com.tibco.tibjms.TibjmsConnectionFactory">
+        <constructor-arg value="${jms.provider.url}" />
+    </bean>
+
+    <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="tibcoConnectionFactory" />
+    </bean>
+
+    <!--<bean id="jmsDestinationResolver"-->
+          <!--class="org.springframework.jms.support.destination.JndiDestinationResolver">-->
+        <!--<property name="jndiTemplate" ref="jndiTemplate" />-->
+        <!--<property name="cache" value="true" />-->
+    <!--</bean>-->
+
+    <!--<bean id="destination" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiTemplate" ref="jndiTemplate" />-->
+        <!--<property name="jndiName" value="${jms.request.queue}" />-->
+    <!--</bean>-->
+
+    <bean id="authenticationConnectionFactory"
+          class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+        <property name="username" value="${jms.user}" />
+        <property name="password" value="${jms.password}" />
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+        <!--<property name="destinationResolver" ref="jmsDestinationResolver" />-->
+        <property name="defaultDestinationName" value="${jms.request.queue}" />
+    </bean>
+
+    <bean id="logger" class="net.example.spring.tibco.tests.JmsLogger" />
+
+
+
+    <!--<jms:listener-container container-type="default"-->
+                            <!--connection-factory="authenticationConnectionFactory"-->
+                            <!--acknowledge="auto">-->
+        <!--<jms:listener destination="dev.resp.queue" ref="myJmsListener" />-->
+    <!--</jms:listener-container>-->
+</beans>
