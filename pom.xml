@@ -113,12 +113,12 @@
                         <goals>
                             <goal>integration-test</goal>
                         </goals>
-                        <!--<configuration>-->
-                            <!--<skipTests>${integration.tests.skip}</skipTests>-->
-                            <!--<includes>-->
-                                <!--<include>**/*IT.class</include>-->
-                            <!--</includes>-->
-                        <!--</configuration>-->
+                        <configuration>
+                            <skipTests>${integration.tests.skip}</skipTests>
+                            <includes>
+                                <include>**/*IT.class</include>
+                            </includes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

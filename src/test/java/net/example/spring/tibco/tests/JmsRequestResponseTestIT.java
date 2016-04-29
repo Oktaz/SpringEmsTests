@@ -3,7 +3,6 @@ package net.example.spring.tibco.tests;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,9 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
-public class JmsRequestResponseTest {
+public class JmsRequestResponseTestIT {
 
-    private static final Log logger = LogFactory.getLog(JmsRequestResponseTest.class);
+    private static final Log logger = LogFactory.getLog(JmsRequestResponseTestIT.class);
 
     @Autowired
     JmsLogger jmsLogger;
