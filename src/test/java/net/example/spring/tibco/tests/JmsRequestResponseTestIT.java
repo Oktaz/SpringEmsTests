@@ -23,7 +23,7 @@ public class JmsRequestResponseTestIT {
     private static final Log logger = LogFactory.getLog(JmsRequestResponseTestIT.class);
 
     @Autowired
-    JmsLogger jmsLogger;
+    JmsMessenger jmsMessenger;
 
     @Value("#{myProps['jms.response.queue']}")
     private String jmsResponseQueue;
@@ -35,28 +35,28 @@ public class JmsRequestResponseTestIT {
     public void clearOutQueues() throws Exception {
 
         logger.debug("Clearing out queues...");
-        jmsLogger.getJmsTemplate().setReceiveTimeout(1);
+        jmsMessenger.getJmsTemplate().setReceiveTimeout(1);
         Message message = null;
         do {
-            message = JmsLogger.JMSReceive(jmsResponseQueue);
+            message = JmsMessenger.JMSReceive(jmsResponseQueue);
         } while (message != null);
 
         do {
-            message = JmsLogger.JMSReceive(jmsRequestQueue);
+            message = JmsMessenger.JMSReceive(jmsRequestQueue);
         } while (message != null);
 
-        jmsLogger.getJmsTemplate().setReceiveTimeout(3000);
+        jmsMessenger.getJmsTemplate().setReceiveTimeout(3000);
     }
 
     @Test
     public void sendAMessage() throws Exception {
-        assertNotNull(jmsLogger);
+        assertNotNull(jmsMessenger);
         assertNotNull(jmsResponseQueue);
 
         final String messageToSend = "Hello, World";
-        JmsLogger.log(String.class, messageToSend, null);
+        JmsMessenger.log(String.class, messageToSend, null);
 
-        Message message = JmsLogger.JMSReceive(jmsResponseQueue);
+        Message message = JmsMessenger.JMSReceive(jmsResponseQueue);
         assertNotNull("Did not find response message", message);
         logger.debug("Received message: " + message);
         assertTrue(message instanceof TextMessage);

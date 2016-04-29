@@ -76,5 +76,5 @@
         <property name="defaultDestinationName" value="${jms.request.queue}" />
     </bean>
 
-    <bean id="logger" class="net.example.spring.tibco.tests.JmsLogger" />
+    <bean id="logger" class="net.example.spring.tibco.tests.JmsMessenger" />
 </beans>

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class JmsLogger {
+public class JmsMessenger {
 
     private final static Logger logger = Logger
             .getLogger(Logger.class);
@@ -21,7 +21,7 @@ public class JmsLogger {
     private static JmsTemplate jmsTemplate;
 
 
-    public JmsLogger() {}
+    public JmsMessenger() {}
 
     /**
      * @param <T>
@@ -31,11 +31,11 @@ public class JmsLogger {
 
         try {
 
-            JMSSend("INT.JMSTEST.REQ", clazz, message, t);
+            JMSSend(clazz, message, t);
             logger.debug("Message Sent...");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
 
         }
     }
@@ -49,7 +49,7 @@ public class JmsLogger {
      * @Description It uses org.springframework.jms.core.JmsTemplate to send JMS message to tibco Queue.
      * @author Parthasarathy Balakrishnan
      */
-    static <T> void JMSSend(String Queue, final Class<T> clazz, final Object message,
+    static <T> void JMSSend(final Class<T> clazz, final Object message,
                             final Throwable t) {
         jmsTemplate.send(new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
@@ -80,7 +80,7 @@ public class JmsLogger {
      */
     @Autowired
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
-        JmsLogger.jmsTemplate = jmsTemplate;
+        JmsMessenger.jmsTemplate = jmsTemplate;
     }
 
 }
