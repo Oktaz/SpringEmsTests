@@ -12,6 +12,7 @@
         <tibco.ems.version>8.2.2</tibco.ems.version>
         <spring.version>4.2.5.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
+        <integration.tests.skip>false</integration.tests.skip>
     </properties>
 
     <dependencies>
@@ -102,4 +103,25 @@
         <!-- Tibco EMS End -->
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <!--<configuration>-->
+                            <!--<skipTests>${integration.tests.skip}</skipTests>-->
+                            <!--<includes>-->
+                                <!--<include>**/*IT.class</include>-->
+                            <!--</includes>-->
+                        <!--</configuration>-->
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -77,12 +77,4 @@
     </bean>
 
     <bean id="logger" class="net.example.spring.tibco.tests.JmsLogger" />
-
-
-
-    <!--<jms:listener-container container-type="default"-->
-                            <!--connection-factory="authenticationConnectionFactory"-->
-                            <!--acknowledge="auto">-->
-        <!--<jms:listener destination="dev.resp.queue" ref="myJmsListener" />-->
-    <!--</jms:listener-container>-->
 </beans>

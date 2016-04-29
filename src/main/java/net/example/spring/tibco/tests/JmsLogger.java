@@ -62,8 +62,9 @@ public class JmsLogger {
 
     public static Message JMSReceive(String queue) {
 
-        jmsTemplate.setReceiveTimeout(3000);
+//        jmsTemplate.setReceiveTimeout(3000);
         Message receive = jmsTemplate.receive(queue);
+
         return receive;
     }
 
