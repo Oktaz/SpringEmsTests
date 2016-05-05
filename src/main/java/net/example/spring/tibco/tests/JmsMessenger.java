@@ -23,10 +23,7 @@ public class JmsMessenger {
 
     public JmsMessenger() {}
 
-    /**
-     * @param <T>
-     *
-     */
+
     public static <T> void log(Class<T> clazz, Object message, Throwable t) {
 
         try {
@@ -62,7 +59,6 @@ public class JmsMessenger {
 
     public static Message JMSReceive(String queue) {
 
-//        jmsTemplate.setReceiveTimeout(3000);
         Message receive = jmsTemplate.receive(queue);
 
         return receive;
