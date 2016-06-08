@@ -23,11 +23,6 @@
             <artifactId>jms</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
-            <groupId>javax.jms</groupId>
-            <artifactId>javax.jms-api</artifactId>
-            <version>2.0.1</version>
-        </dependency>
 
         <dependency>
             <groupId>com.tibco</groupId>
@@ -120,12 +115,12 @@
     </build>
 
     <repositories>
-        <repository>
-            <id>Central</id>
-            <name>Central</name>
-            <url>http://repo1.maven.org/maven2/</url>
-            <layout>default</layout>
-        </repository>
+        <!--<repository>-->
+            <!--<id>Central</id>-->
+            <!--<name>Central</name>-->
+            <!--<url>http://repo1.maven.org/maven2/</url>-->
+            <!--<layout>default</layout>-->
+        <!--</repository>-->
 
         <repository>
             <id>mhs-artifactory-releases</id>
@@ -138,6 +133,8 @@
             <name>mhs-artifactory-snapshots</name>
             <url>http://mhs-artifactory.mckesson.com/artifactory/hub-snapshot-local</url>
         </repository>
+
+
     </repositories>
 
     <distributionManagement>
