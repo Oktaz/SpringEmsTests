@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,7 +36,7 @@ public class JmsRequestResponseTestIT {
     public void clearOutQueues() throws Exception {
 
         logger.debug("Clearing out queues...");
-        jmsMessenger.getJmsTemplate().setReceiveTimeout(1);
+        jmsMessenger.getJmsTemplate().setReceiveTimeout(JmsTemplate.RECEIVE_TIMEOUT_NO_WAIT);
         Message message = null;
         do {
             message = JmsMessenger.JMSReceive(jmsResponseQueue);
