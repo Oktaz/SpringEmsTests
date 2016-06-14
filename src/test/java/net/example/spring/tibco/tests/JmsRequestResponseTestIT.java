@@ -61,6 +61,6 @@ public class JmsRequestResponseTestIT {
         assertNotNull("Did not find response message", message);
         logger.debug("Received message: " + message);
         assertTrue(message instanceof TextMessage);
-        assertEquals("", "You sent this message: " + messageToSend, ((TextMessage)message).getText());
+        assertEquals("Did not receive expected response from service call", "You sent this message: " + messageToSend, ((TextMessage)message).getText());
     }
 }
